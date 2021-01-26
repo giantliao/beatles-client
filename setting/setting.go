@@ -17,7 +17,7 @@ func GetActiveNetWorkDevice() string {
 		out = out[:len(out)-1]
 	}
 
-	servDev:="networksetup -listallhardwareports | grep -B 1 "+string(out)+" | awk '/Hardware Port/{ print }'|cut -d \" \" -f3-"
+	servDev:="networksetup -listallhardwareports | grep -B 1 \""+string(out)+"$\" | awk '/Hardware Port/{ print }'|cut -d \" \" -f3-"
 
 	//fmt.Println(servDev)
 
