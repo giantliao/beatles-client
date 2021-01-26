@@ -35,7 +35,7 @@ func GetActiveNetWorkDevice() string {
 
 func SetProxy(mode int)  {
 
-	pacproxy:= "http://127.0.0.1:50211/gfw.js"
+	pacproxy:= "http://127.0.0.1:50211/web/gfw.js"
 
 	activeNetDev:=GetActiveNetWorkDevice()
 	if activeNetDev == ""{
