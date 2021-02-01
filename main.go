@@ -15,7 +15,15 @@
 package main
 
 import (
-	"github.com/giantliao/beatles-master/app/cmd"
+	"github.com/giantliao/beatles-client-lib/app/cmd"
+	"github.com/giantliao/beatles-client-lib/config"
+	"github.com/giantliao/beatles-client-lib/webmain"
+	"github.com/giantliao/beatles-mac-client/setting"
+	"github.com/hyperorchidlab/go-lib/webresource/webapp"
+	"github.com/sevlyar/go-daemon"
+	"log"
+	"net/http"
+	"path"
 )
 
 var (
@@ -28,5 +36,37 @@ func main() {
 	cmd.CmdVersion = Version
 	cmd.CmdBuild = Build
 	cmd.CmdBuildTime = BuildTime
-	cmd.Execute()
+
+
+	if _, err := http.Get("http://127.0.0.1:50211"); err == nil {
+		webmain.OpenBrowser("http://127.0.0.1:50211")
+		return
+	}
+
+	cmd.InitCfg()
+	cfg := config.GetCBtlc()
+	cfg.Save()
+
+	daemondir := webapp.Getbasdir()
+	cntxt := daemon.Context{
+		PidFileName: path.Join(daemondir, "beetle.pid"),
+		PidFilePerm: 0644,
+		LogFileName: path.Join(daemondir, "beetld.log"),
+		LogFilePerm: 0640,
+		WorkDir:     daemondir,
+		Umask:       027,
+		Args:        []string{},
+	}
+	d, err := cntxt.Reborn()
+	if err != nil {
+		log.Fatal("Unable to run: ", err)
+	}
+	if d != nil {
+		log.Println("pirateW client starting, please check log at:", path.Join(daemondir, "beetle.log"))
+
+		return
+	}
+	defer cntxt.Release()
+
+	webmain.StartWEBService(&setting.MacSetting{})
 }

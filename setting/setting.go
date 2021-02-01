@@ -5,6 +5,20 @@ import (
 	"os/exec"
 )
 
+type MacSetting struct {
+
+}
+
+func (ms *MacSetting)SetProxy(mode int)  {
+	if mode == 0 || mode ==1 {
+		SetProxy(mode)
+	}
+}
+
+func (ms *MacSetting)ClearProxy()  {
+	ClearProxy()
+}
+
 func GetActiveNetWorkDevice() string {
 	out, err := exec.Command("/bin/zsh","-c","route -n get default | grep interface | awk '{print $2}'").Output()
 	if err != nil {
