@@ -19,7 +19,6 @@ import (
 	"github.com/giantliao/beatles-client-lib/config"
 	"github.com/giantliao/beatles-client-lib/webmain"
 	"github.com/giantliao/beatles-mac-client/setting"
-	"github.com/hyperorchidlab/go-lib/webresource/webapp"
 	"github.com/sevlyar/go-daemon"
 	"log"
 	"net/http"
@@ -47,11 +46,11 @@ func main() {
 	cfg := config.GetCBtlc()
 	cfg.Save()
 
-	daemondir := webapp.Getbasdir()
+	daemondir := config.GetBtlcHomeDir()
 	cntxt := daemon.Context{
 		PidFileName: path.Join(daemondir, "beetle.pid"),
 		PidFilePerm: 0644,
-		LogFileName: path.Join(daemondir, "beetld.log"),
+		LogFileName: path.Join(daemondir, "beetle.log"),
 		LogFilePerm: 0640,
 		WorkDir:     daemondir,
 		Umask:       027,
@@ -62,7 +61,7 @@ func main() {
 		log.Fatal("Unable to run: ", err)
 	}
 	if d != nil {
-		log.Println("pirateW client starting, please check log at:", path.Join(daemondir, "beetle.log"))
+		log.Println("beetle client starting, please check log at:", path.Join(daemondir, "beetle.log"))
 
 		return
 	}
