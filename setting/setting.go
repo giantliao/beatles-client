@@ -58,7 +58,7 @@ func SetProxy(mode int)  {
 	}
 
 	if mode == 0{
-		cmdline:= "networksetup -setsocksfirewallproxystate  "+activeNetDev+" off"
+		cmdline:= "networksetup -setsocksfirewallproxystate  \""+activeNetDev+"\" off"
 		out, err := exec.Command("/bin/zsh","-c",cmdline).Output()
 		if err != nil {
 			log.Println("turn off sock proxy failed")
@@ -76,7 +76,7 @@ func SetProxy(mode int)  {
 			log.Println("set auto proxy success",string(out))
 		}
 
-		cmdline = "networksetup -setautoproxystate "+activeNetDev+" on"
+		cmdline = "networksetup -setautoproxystate \""+activeNetDev+"\" on"
 		out, err = exec.Command("/bin/zsh","-c",cmdline).Output()
 		if err != nil {
 			log.Println("turn on auto proxy failed")
@@ -87,7 +87,7 @@ func SetProxy(mode int)  {
 	}
 
 	if mode == 1{
-		cmdline := "networksetup -setautoproxystate "+activeNetDev+" off"
+		cmdline := "networksetup -setautoproxystate \""+activeNetDev+"\" off"
 		out, err := exec.Command("/bin/zsh","-c",cmdline).Output()
 		if err != nil {
 			log.Println("turn off auto proxy failed")
@@ -96,7 +96,7 @@ func SetProxy(mode int)  {
 			log.Println("turn off auto proxy success",string(out))
 		}
 
-		cmdline ="networksetup -setsocksfirewallproxy "+activeNetDev+" 127.0.0.1 50212"
+		cmdline ="networksetup -setsocksfirewallproxy \""+activeNetDev+"\" 127.0.0.1 50212"
 		out, err = exec.Command("/bin/zsh","-c",cmdline).Output()
 		if err != nil {
 			log.Println("set sock proxy failed")
@@ -105,7 +105,7 @@ func SetProxy(mode int)  {
 			log.Println("set sock proxy success",string(out))
 		}
 
-		cmdline = "networksetup -setsocksfirewallproxystate  "+activeNetDev+" on"
+		cmdline = "networksetup -setsocksfirewallproxystate  \""+activeNetDev+"\" on"
 		out, err = exec.Command("/bin/zsh","-c",cmdline).Output()
 		if err != nil {
 			log.Println("turn off sock proxy failed")
@@ -124,7 +124,7 @@ func ClearProxy()  {
 		return
 	}
 
-	cmdline := "networksetup -setautoproxystate "+activeNetDev+" off"
+	cmdline := "networksetup -setautoproxystate \""+activeNetDev+"\" off"
 	out, err := exec.Command("/bin/zsh","-c",cmdline).Output()
 	if err != nil {
 		log.Println("turn off auto proxy failed")
@@ -132,7 +132,7 @@ func ClearProxy()  {
 	}else{
 		log.Println("turn off auto proxy success",string(out))
 	}
-	cmdline= "networksetup -setsocksfirewallproxystate  "+activeNetDev+" off"
+	cmdline= "networksetup -setsocksfirewallproxystate  \""+activeNetDev+"\" off"
 	out, err = exec.Command("/bin/zsh","-c",cmdline).Output()
 	if err != nil {
 		log.Println("turn off sock proxy failed")
